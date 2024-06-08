@@ -1,14 +1,15 @@
-import tensorflow as tf
-from tensorflow.keras.layers import Input, Flatten, Add
+from tensorflow.keras.layers import Input, Add, Flatten
+from tensorflow.keras.models import Model
 
-input_layer = Input(shape=(3, 2)) # D2 3 2
-flatten_layer = Flatten()(input_layer) # D1 6
-try:
-    add_layer = Add()([
-        input_layer,
-        flatten_layer
-    ]) # error!
-    print("Add layer created successfully without shape mismatch.")
-except Exception as e:
-    print("Error during model creation:")
-    print(e)
+# 入力層を定義（異なる形状）
+input = Input(shape=(3, 2))
+flattened = Flatten()(input)
+
+# Addレイヤーで入力を加算しようとする
+added = Add()([flattened, input])
+
+# モデルを定義
+model = Model(inputs=[flattened, input], outputs=added)
+
+# モデルのサマリーを表示
+model.summary()
