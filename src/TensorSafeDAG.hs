@@ -3,8 +3,15 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeOperators #-}
 
-module YTSafe where
+module TensorSafeDAG (
+  MkNetwork(..)
+, Shape(..)
+, Axis
+, Layer(..)
+, Activation(..)
+) where
 
 import qualified GHC.TypeLits as N
 import GHC.TypeLits
@@ -13,6 +20,14 @@ import Data.Type.Bool
 import Data.Type.Ord
 import Data.Type.Equality (type (==))
 import Text.Read.Lex (Number)
+
+
+-- レイヤー型定義と期待される形状を受取、形状一致検査
+-- 以下の何方かのケースで静的に形状不一致が検出
+-- 1. 各レイヤーの形状計算のためのtype family (AddShapeなど)の型展開でパターンマッチに失敗
+-- 2. モデルの計算された出力形状が、MkModelの第二引数の期待形状と不一致 (CheckCompatile型制約に違反)
+data MkNetwork (layer :: Layer) (outputShape :: Shape) where
+    MkNetwork :: (Out layer ~ outputShape) => MkNetwork layer outputShape
 
 -- 形状を表すデータ型(各コンストラクタを型にリフトして使う)
 data Shape = D1 Nat | D2 Nat Nat | D3 Nat Nat Nat 
@@ -24,10 +39,16 @@ type family ShowShape (shape :: Shape) :: ErrorMessage where
 
 type Axis = Nat
 
-
 -- 表面言語としてユーザーがモデルを定義する用のLayer定義
-data Layer = Input Shape | Flatten Layer | Dense Nat Activation Layer | Conv2D Nat Nat Nat Activation Layer | Conv3D | MaxPooling
-    | Add Layer Layer | Concatenate Axis Layer Layer
+data Layer =
+    Input Shape
+  | Flatten Layer
+  | Dense Nat Activation Layer
+  | Conv2D Nat Nat Nat Activation Layer
+  | Conv3D
+  | MaxPooling
+  | Add Layer Layer
+  | Concatenate Axis Layer Layer
 
 -- 活性化関数
 data Activation = Relu | Sigmoid
@@ -38,7 +59,6 @@ type family CheckCompatible (shape1 :: Shape) (shape2 :: Shape) :: Constraint wh
     CheckCompatible (D2 x1 y1) (D2 x2 y2) = (x1 ~ x2, y1 ~ y2)
     CheckCompatible (D3 x1 y1 z1) (D3 x2 y2 z2) = (x1 ~ x2, y1 ~ y2, z1 ~ z2)
     CheckCompatible shape1 shape2 = TypeError (Text "Shapes are not compatible: " :<>: ShowType shape1 :<>: Text " and " :<>: ShowType shape2)
-
 
 type family Broadcastable (a :: Shape) (b :: Shape) :: Bool where
     Broadcastable ('D1 x) ('D1 y) = (x == y) || (x == 1) || (y == 1)
@@ -76,9 +96,6 @@ type family TryBroadcast (s1 :: Shape) (s2 :: Shape) :: Shape where
     TryBroadcast s1 s2 = If (Broadcastable s1 s2)
                                (Broadcast s1 s2)
                                (TypeError (Text "Cannot broadcast shapes: " :<>: ShowShape s1 :<>: Text " and " :<>: ShowShape s2))
-
-
-
 
 -- Layerの出力形状を計算するType Familyを定義
 type family Out (layer :: Layer) :: Shape where
@@ -119,8 +136,3 @@ type family Conv2DShapes (filters :: Nat) (kernel_size_x :: Nat) (kernel_size_y 
     Conv2DShapes filter kernel_size_x  kernel_size_y acv ('D2 x y) = ('D3 (x - kernel_size_x + 1 ) (y - kernel_size_y + 1) filter)
     Conv2DShapes filter kernel_size_x  kernel_size_y acv ('D3 x y z) = ('D3 (x - kernel_size_x + 1 ) (y - kernel_size_y + 1) filter)
     Conv2DShapes filters kernel_size_x kernel_size_y acv shape = TypeError (Text "Shapes are not compatible: " )
-
-
-main :: IO ()
-main = do
-    putStrLn "Model successfully created with type-level shape checking."
