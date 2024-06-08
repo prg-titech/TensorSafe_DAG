@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Ord
       TensorSafeDAG
   other-modules:
       Paths_TensorSafeDag
@@ -35,6 +36,7 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , tensor-safe
   default-language: Haskell2010
 
 executable TensorSafeDag-exe
@@ -49,6 +51,7 @@ executable TensorSafeDag-exe
   build-depends:
       TensorSafeDag
     , base >=4.7 && <5
+    , tensor-safe
   default-language: Haskell2010
 
 test-suite TensorSafeDag-test
@@ -64,4 +67,5 @@ test-suite TensorSafeDag-test
   build-depends:
       TensorSafeDag
     , base >=4.7 && <5
+    , tensor-safe
   default-language: Haskell2010

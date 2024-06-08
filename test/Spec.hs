@@ -67,6 +67,7 @@ type Test5 = MkNetwork ('Add ('Input ('D3 4 3 2)) ('Input ('D3 1 3 2))) ('D3 4 3
 type Test6 = MkNetwork ('Add ('Input ('D2 1 3))   ('Input ('D2 2 3)))   ('D2 2 3)
 type Test7 = MkNetwork ('Add ('Input ('D1 1))     ('Input ('D3 3 2 1))) ('D3 3 2 1)
 type Test8 = MkNetwork ('Add ('Input ('D1 1))     ('Input ('D2 1 2)))   ('D2 1 2)
+type Invalid = MkNetwork ('Add ('Flatten ('Input ('D2 3 2))) ('Input ('D2 3 2))) ('D1 6)
 
 valid1 :: Test1
 valid1 = MkNetwork
@@ -84,14 +85,20 @@ valid7 :: Test7
 valid7 = MkNetwork
 valid8 :: Test8
 valid8 = MkNetwork
+invalid :: Invalid
+invalid = MkNetwork
 
--- Faklthy Test
+-- Falthy Test
 
 
 -----------------
 -- Concatenate --
 -----------------
 
+
+------------------
+-- Mixed Layers --
+------------------
 
 validModelFlatten :: MkNetwork ('Flatten ('Input ('D3 2 3 1))) ('D1 6)
 validModelFlatten = MkNetwork

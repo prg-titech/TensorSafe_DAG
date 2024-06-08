@@ -17,7 +17,7 @@ import qualified GHC.TypeLits as N
 import GHC.TypeLits
 import GHC.Exts (Constraint)
 import Data.Type.Bool
-import Data.Type.Ord
+import Ord
 import Data.Type.Equality (type (==))
 import Text.Read.Lex (Number)
 
@@ -80,6 +80,7 @@ type family Broadcastable (a :: Shape) (b :: Shape) :: Bool where
         (x2 == y1 || x2 == 1 || y1 == 1) &&
         (x3 == y2 || x3 == 1 || y2 == 1)
     Broadcastable _ _ = 'False
+
 
 type family Broadcast (s1 :: Shape) (s2 :: Shape) :: Shape where
     Broadcast ('D1 x) ('D1 y) = 'D1 (Max x y)

@@ -3,11 +3,17 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: tensor-safe-0.1.0.1@sha256:ea402dc453773e8e7fdee0121a34201b5fb20912db7a0f3dc5aaa8c99a86aba4,3255
+    pantry-tree:
+      sha256: 01b84824e7f877581298b7b24f0d8885c77269d65298b9391374177b7c5caf24
+      size: 2277
+  original:
+    hackage: tensor-safe-0.1.0.1
 snapshots:
 - completed:
-    sha256: 28a863b358647f2d952fe7085ba11561aeb63eca6bc6fd1ce8fcf1cfe63717f5
-    size: 719127
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/22/24.yaml
-  original:
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/22/24.yaml
+    sha256: 7ea31a280c56bf36ff591a7397cc384d0dff622e7f9e4225b47d8980f019a0f0
+    size: 524996
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/27.yaml
+  original: lts-14.27
