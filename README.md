@@ -41,11 +41,16 @@ TensorSafeDAG
 └── GHC (latest)
 ```
 
-### Install (on Ubuntu 22.04)
+### Installation
 Install the packages necessary for building GHC (including libGMP, libtinfo, and gcc).
 ```bash
+--- Ubuntu
 sudo apt update
 sudo apt install libgmp-dev libtinfo-dev build-essential
+
+-- Mac
+brew update && brew install gmp ncurses
+xcode-select --install
 ```
 
 Install GHC, stack, and cabal via [GHCup](https://www.haskell.org/ghcup/#).
