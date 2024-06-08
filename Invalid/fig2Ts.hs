@@ -8,16 +8,20 @@ import TensorSafe.Layers
 import TensorSafe.Network
 import TensorSafe.Shape
 
-type MyModel =
-    MkINetwork
-    '[ Flatten
-     , Add [Input, Dense 784 10, Relu] '[Dense 784 9, Sigmoid]
-     ]
-    ('D3 28 28 1)    -- Input
-    ('D1 10)      -- Output
+type MyModel = MkINetwork
+  '[ Flatten
+   , Add '[ Input
+          , Dense 784 10
+          , Relu ]
+         '[ Input
+          , Dense 784 9
+          , Sigmoid ]
+   ]
+  ('D3 28 28 1)
+  ('D1 10)
 
-resnet50 :: MyModel
-resnet50 = mkINetwork
+invalid :: MyModel
+invalid = mkINetwork
 
 main :: IO ()
 main = putStrLn "Success!"
