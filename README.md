@@ -26,6 +26,7 @@ Model successfully created with type-level shape checking
 これはTensorSafeでは以下の2箇所でしか形状検査をしていないのが理由。
 1. `MkINetwork`の第一引数のリスト内の連続するレイヤー間
 2. モデルの出力テンソルの形状と与えられた期待テンソル形状
+
 上記のプログラムでは2.の検査しかしておらず、`Add`の引数を使った形状一致検査については何もしていない。
 
 ## Installation
