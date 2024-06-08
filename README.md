@@ -2,7 +2,7 @@
 
 ## TensorSafeの不完全な形状一致検査の再現
 `./invalid/invalid_keras.py`のモデルは不正で、長さ6のベクトルと3x2の行列を加算レイヤーの入力に与えている。
-TensorSafeDAGで書くと以下。
+TensorSafeDAGで書くと以下であり、正しく型エラーが返される。
 ```haskell
 type Input = Input ('D2 3 2)
 type L1 = Flatten Input
