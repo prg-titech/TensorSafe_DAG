@@ -17,8 +17,7 @@ invalid = MkNetwork
 実際、対応する深層学習モデル`./invalid/invalid_keras.py`をKerasで実行すると以下の形状不一致エラーが出力される。
 ```sh
 $ python3 ./Invalid/invalid_keras.py
-Error during model creation:
-Inputs have incompatible shapes. Received shapes (3, 2) and (6,)
+ValueError: Inputs have incompatible shapes. Received shapes (3, 2) and (6,)
 ```
 しかし、まったく同じモデルに対し、TensorSafeでは形状不一致エラーを検出できない。
 ```sh
