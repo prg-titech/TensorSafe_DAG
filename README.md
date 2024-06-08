@@ -1,8 +1,8 @@
 # TensorSafeDAG
 
 ## TensorSafeの不完全な形状一致検査の再現
-`./invalid/invalid_keras.py`のモデルは不正で、長さ6のベクトルと3x2の行列をAddレイヤーの入力に与えている。
-TensorSafeDAGで書くと以下
+`./invalid/invalid_keras.py`のモデルは不正で、長さ6のベクトルと3x2の行列を加算レイヤーの入力に与えている。
+TensorSafeDAGで書くと以下。
 ```haskell
 type Input = Input ('D2 3 2)
 type L1 = Flatten Input
@@ -12,7 +12,7 @@ invalid :: MkNetwork Output ('D1 6)
 invalid = MkNetwork
 ```
 
-実際、これに対応する深層学習モデル`./invalid/invalid_keras.py`をkerasで実行すると以下の形状不一致エラーが出る
+実際、対応する深層学習モデル`./invalid/invalid_keras.py`をKerasで実行すると以下の形状不一致エラーが出力される。
 ```sh
 $ python3 ./invalid/invalid_keras.py
 Error during model creation:
@@ -24,9 +24,9 @@ $ stack run ./invalid/invalidcInvalidTs.hs
 Model successfully created with type-level shape checking
 ```
 これはTensorSafeでは以下の2箇所でしか形状検査をしていないのが理由。
-1. MkINetworkの第一引数のリスト内の連続するレイヤー間
-2. モデルの出力テンソルの形状が期待と一致しているか
-↑のプログラムでは2.の検査しかしておらず、Addの引数を使った形状一致検査については何もしていない。
+1. `MkINetwork`の第一引数のリスト内の連続するレイヤー間
+2. モデルの出力テンソルの形状と与えられた期待テンソル形状
+上記のプログラムでは2.の検査しかしておらず、`Add`の引数を使った形状一致検査については何もしていない。
 
 ## Installation
 The TensorSafeDAG is implemented in Haskell, and the latest version of GHC is recommended.
