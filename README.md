@@ -18,7 +18,7 @@ $ python3 ./invalid/invalid_keras.py
 Error during model creation:
 Inputs have incompatible shapes. Received shapes (3, 2) and (6,)
 ```
-しかし、まったく同じモデルがTensorSafeでは形状不一致エラーを検出しない。
+しかし、まったく同じモデルに対し、TensorSafeでは形状不一致エラーを検出できない。
 ```sh
 $ stack run ./invalid/invalidcInvalidTs.hs
 Model successfully created with type-level shape checking
