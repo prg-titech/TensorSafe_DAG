@@ -21,5 +21,5 @@ main :: IO ()
 main = putStrLn "Success!"
 
 -- これは形状不一致を含むプログラムのはずだが、TensorSafeでは形状不一致エラーを検出しない。
--- $ stack runghc ./Invalid/InvalidTs.hs
+-- $ stack runghc ./invalid/InvalidTs.hs
 -- Success!

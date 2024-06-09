@@ -10,5 +10,5 @@ out = layers.Add()([y, z])
 model = tf.keras.Model(inp, out, name="mnist")
 model.summary()
 
-# $ python3 ./Invalid/fig2.py
+# $ python3 ./invalid/fig2.py
 # ValueError: Inputs have incompatible shapes. Received shapes (10,) and (9,)
